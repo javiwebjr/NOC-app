@@ -1,11 +1,11 @@
 import { CheckService } from "../domain/use-cases/checks/check-service";
-import { FileSystemDataSource } from "../infrastructure/datasources/file-system.datasource";
+import { FileSystemDatasource } from "../infrastructure/datasources/file-system.datasource";
 import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository.impl";
 import { CronService } from "./cron/cron-service";
 import { EmailService } from "./email/email.service";
 
 const fileSystemLogRepository = new LogRepositoryImpl(
-    new FileSystemDataSource(),
+    new FileSystemDatasource(),
     // new postgresSQLLogDataSource(),
     // new mongoLogDTS(),
 );
@@ -16,16 +16,17 @@ export class Server {
 
         //Email
         const emailService = new EmailService();
-        
-        emailService.sendEmail({
-            to: 'urissent@gmail.com',
-            subject: 'TESTING',
-            htmlBody: `
-                <h2>Logs de Sistema NOC</h2>
-                <p>Reprehenderit dolor esse commodo magna aliqua.</p>
-                <p>Ver Logs adjuntos</p>
-            `
-        });
+        // emailService.sendEmail({
+        //     to: 'urissent@gmail.com',
+        //     subject: 'TESTING',
+        //     htmlBody: `
+        //         <h2>Logs de Sistema NOC</h2>
+        //         <p>Reprehenderit dolor esse commodo magna aliqua.</p>
+        //         <p>Ver Logs </p>
+        //     `
+        // });
+
+        emailService.sendEmailWithFileSystemLogs(['urissent@gmail.com', 'alexdetailsv@gmail.com']);
 
         // CronService.createdJob(
         //     '*/5 * * * * *',
